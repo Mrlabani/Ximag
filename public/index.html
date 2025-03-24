@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📸 Image Hosting</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #222; color: white; margin: 50px; }
+        .container { max-width: 500px; margin: auto; padding: 20px; background: #333; border-radius: 10px; }
+        input { margin-top: 20px; padding: 10px; width: 100%; border-radius: 5px; background: #444; color: white; }
+        button { margin-top: 20px; padding: 10px 20px; background: #ff9800; border: none; color: white; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #e68900; }
+        .copy-btn { background: #00c853; margin-left: 5px; padding: 5px 10px; font-size: 14px; border-radius: 3px; }
+        .copy-btn:hover { background: #009624; }
+        #status { margin-top: 10px; font-size: 16px; }
+        .image-preview img { max-width: 100%; border-radius: 10px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📤 Upload Your Image</h2>
+        <input type="file" id="fileInput">
+        <button onclick="uploadImage()">🚀 Upload</button>
+        <p id="status"></p>
+        <div id="imagePreview" class="image-preview"></div>
+    </div>
+
+    <script>
+        async function uploadImage() {
+            const file = document.getElementById("fileInput").files[0];
+            if (!file) return alert("⚠️ Please select an image!");
+
+            document.getElementById("status").innerText = "⏳ Uploading...";
+
+            let formData = new FormData();
+            formData.append("image", file);
+
+            let response = await fetch("/api/upload", {
+                method: "POST",
+                body: formData
+            });
+
+            let result = await response.json();
+            if (result.success) {
+                document.getElementById("status").innerHTML = `✅ Uploaded Successfully! <br> 
+                <a href="${result.url}" target="_blank">${result.url}</a>
+                <button class="copy-btn" onclick="copyToClipboard('${result.url}')">📋 Copy</button>`;
+                
+                document.getElementById("imagePreview").innerHTML = `<img src="${result.url}" alt="Uploaded Image">`;
+            } else {
+                document.getElementById("status").innerText = "❌ Upload Failed!";
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("📋 Link copied!");
+            }).catch(err => {
+                console.error("Copy failed:", err);
+            });
+        }
+    </script>
+</body>
+</html>
