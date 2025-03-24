@@ -12,8 +12,8 @@ export default async function handler(req, res) {
 
     const blob = new Blob([await file.arrayBuffer()], { type: file.type });
 
-    const tgBotToken = "YOUR_TELEGRAM_BOT_TOKEN";
-    const chatId = "@YourTelegramChannel";
+    const tgBotToken = "7565594863:AAF2uTPZOdMA4__i8fvZbksCjgdp4XQ0_xU";
+    const chatId = "@noob_imgHost";
 
     const tgForm = new FormData();
     tgForm.append("chat_id", chatId);
