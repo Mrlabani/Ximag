@@ -1,0 +1,15 @@
+{
+  "name": "image-hosting",
+  "version": "1.0.0",
+  "description": "Simple Image Hosting with Telegram Storage",
+  "main": "api/upload.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel start",
+    "deploy": "vercel deploy"
+  },
+  "dependencies": {
+    "form-data": "^4.0.0",
+    "node-fetch": "^3.3.0"
+  }
+}
